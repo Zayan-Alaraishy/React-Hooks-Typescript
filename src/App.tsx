@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { useState, useEffect } from "react";
+import "./index.css";
+import Sidebar from "./Components/Sidebar";
+import Products from "./Components/Products";
 
 function App() {
+  type Categories = string[];
+  type SeletedCategory = string;
+  const [categories, setCategories] = useState<Categories>([]);
+  const [selectedCategory, setSelectedCategory] =
+    useState<SeletedCategory>("all");
+  useEffect(() => {
+    fetch("https://dummyjson.com/products/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCategories(data);
+      });
+  }, []);
+  if (categories.length <= 0) return <h1>Lodaing...</h1>;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <Sidebar
+        categories={categories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+      <Products selectedCategory={selectedCategory} />
+    </main>
   );
 }
 
