@@ -22,7 +22,7 @@ const Sidebar = ({
               type="radio"
               key={selectedCategory}
               name={selectedCategory}
-              value={selectedCategory}
+              value={row}
               checked={selectedCategory === row}
               onChange={(e) => setSelectedCategory(e.target.value)}
             />
